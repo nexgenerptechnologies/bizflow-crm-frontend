@@ -1,4 +1,4 @@
-﻿export default function Home() {
+export default function Home() {
   const pipelineStages = [
     { id: 'leads', title: 'New Leads', amount: 'Rs. 0' },
     { id: 'contacted', title: 'Contacted', amount: 'Rs. 1,20,000' },
@@ -15,8 +15,8 @@
   return (
     <>
       <header className="header">
-        <h1 className="page-title">Deals Pipeline ✨</h1>
-        <button className="btn-primary">+ New Deal</button>
+        <h1 className="page-title">Deals Pipeline</h1>
+        <button className="btn-primary">Create Deal</button>
       </header>
       <div className="kanban-board">
         {pipelineStages.map(stage => (
@@ -27,12 +27,12 @@
             </div>
             
             {dummyDeals.filter(d => d.stage === stage.id).map(deal => (
-              <div key={deal.id} className="glass-panel deal-card">
+              <div key={deal.id} className="deal-card">
                 <div className="deal-title">{deal.title}</div>
-                <div className="deal-company">🏢 {deal.company}</div>
+                <div className="deal-company">{deal.company}</div>
                 <div className="deal-footer">
                   <span className="deal-amount">{deal.amount}</span>
-                  <span style={{color: 'var(--text-muted)', fontSize: '12px', fontWeight: '600'}}>Today</span>
+                  <span className="deal-tag">Today</span>
                 </div>
               </div>
             ))}

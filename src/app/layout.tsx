@@ -1,10 +1,14 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
+// Switching to Inter font for a highly professional B2B look
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata: Metadata = {
   title: "BizFlow CRM",
-  description: "Colorful CRM for Indian SMEs",
+  description: "High-end CRM for Indian Enterprises",
 };
 
 export default function RootLayout({
@@ -14,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <div className="dashboard-layout">
           <aside className="sidebar">
             <div className="logo">
@@ -23,19 +27,19 @@ export default function RootLayout({
             </div>
             <nav className="nav-links">
               <Link href="/" className="nav-item active">
-                <span style={{fontSize: '20px'}}>📊</span> Deals Pipeline
+                Pipeline
               </Link>
               <Link href="/contacts" className="nav-item">
-                <span style={{fontSize: '20px'}}>👥</span> Contacts
+                Contacts
               </Link>
               <Link href="/quotations" className="nav-item">
-                <span style={{fontSize: '20px'}}>📝</span> Quotations
+                Quotations
               </Link>
               <Link href="/invoices" className="nav-item">
-                <span style={{fontSize: '20px'}}>💰</span> GST Invoices
+                GST Invoices
               </Link>
               <Link href="/settings" className="nav-item">
-                <span style={{fontSize: '20px'}}>⚙️</span> Settings
+                Settings
               </Link>
             </nav>
           </aside>
