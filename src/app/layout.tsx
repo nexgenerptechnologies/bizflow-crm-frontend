@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "BizFlow CRM",
-  description: "Lightweight CRM for Indian SMEs",
+  description: "Colorful CRM for Indian SMEs",
 };
 
 export default function RootLayout({
@@ -17,21 +17,30 @@ export default function RootLayout({
       <body>
         <div className="dashboard-layout">
           <aside className="sidebar">
-            <div className="logo">BizFlow CRM</div>
+            <div className="logo">
+              <div className="logo-icon">B</div>
+              BizFlow
+            </div>
             <nav className="nav-links">
-              <Link href="/" className="nav-item active">Deals Pipeline</Link>
-              <Link href="/contacts" className="nav-item">Contacts</Link>
-              <Link href="/quotations" className="nav-item">Quotations</Link>
-              <Link href="/invoices" className="nav-item">GST Invoices</Link>
-              <Link href="/settings" className="nav-item">Settings</Link>
+              <Link href="/" className="nav-item active">
+                <span style={{fontSize: '20px'}}>📊</span> Deals Pipeline
+              </Link>
+              <Link href="/contacts" className="nav-item">
+                <span style={{fontSize: '20px'}}>👥</span> Contacts
+              </Link>
+              <Link href="/quotations" className="nav-item">
+                <span style={{fontSize: '20px'}}>📝</span> Quotations
+              </Link>
+              <Link href="/invoices" className="nav-item">
+                <span style={{fontSize: '20px'}}>💰</span> GST Invoices
+              </Link>
+              <Link href="/settings" className="nav-item">
+                <span style={{fontSize: '20px'}}>⚙️</span> Settings
+              </Link>
             </nav>
           </aside>
           
           <main className="main-content">
-            <header className="header">
-              <h1 className="page-title">Deals Pipeline</h1>
-              <button className="btn-primary">+ New Deal</button>
-            </header>
             {children}
           </main>
         </div>
