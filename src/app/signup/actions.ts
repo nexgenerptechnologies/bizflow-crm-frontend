@@ -24,27 +24,41 @@ export async function createTenantSiteAction(formData: FormData) {
 
     console.log(`[Frappe Cloud API] Provisioning new database for: ${subdomain}.nexgenerp.in on bench: nexgenerp`);
     
-    // Direct URL to avoid 308 Redirects which strip the Authorization header
-    const fcResponse = await fetch('https://cloud.frappe.io/api/method/press.api.site.new', {
-      method: 'POST',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: `${subdomain}.nexgenerp.in`,
-        bench: 'nexgenerp'
-      })
-    });
+    // Explicitly timeout the request after 15 seconds to prevent Cloudflare from killing the worker
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    const resultText = await fcResponse.text();
-    console.log("Frappe Cloud Response:", resultText);
+    try {
+      const fcResponse = await fetch('https://cloud.frappe.io/api/method/press.api.site.new', {
+        method: 'POST',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: `${subdomain}.nexgenerp.in`,
+          bench: 'nexgenerp'
+        }),
+        signal: controller.signal
+      });
 
-    if (!fcResponse.ok) {
-      return { error: `Failed to provision database: ${fcResponse.statusText} - ${resultText}` };
+      clearTimeout(timeoutId);
+
+      const resultText = await fcResponse.text();
+      console.log("Frappe Cloud Response:", resultText);
+
+      if (!fcResponse.ok) {
+        return { error: `Failed to provision database: ${fcResponse.statusText} - ${resultText}` };
+      }
+
+      return { success: true, redirectUrl };
+    } catch (fetchErr: any) {
+      clearTimeout(timeoutId);
+      if (fetchErr.name === 'AbortError' || fetchErr.message.includes('aborted')) {
+        return { error: "Frappe Cloud API took too long to respond. This usually happens when the account is blocked from creating sites due to billing." };
+      }
+      throw fetchErr;
     }
-
-    return { success: true, redirectUrl };
   } catch (err: any) {
     console.error("Fatal Action Error:", err);
     return { error: `A fatal error occurred on the server: ${err.message || 'Unknown error'}` };
