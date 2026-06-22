@@ -14,36 +14,16 @@ export async function createTenantSiteAction(formData: FormData) {
     const isLocal = process.env?.NODE_ENV !== 'production';
     const baseDomain = isLocal ? 'localhost:3000' : 'nexgenerp.in';
     const protocol = isLocal ? 'http' : 'https';
-    const redirectUrl = `${protocol}://${subdomain}.${baseDomain}/login`;
-
-    const token = process.env?.FRAPPE_CLOUD_API_TOKEN;
-    if (!token) {
-      console.error("Missing FRAPPE_CLOUD_API_TOKEN environment variable.");
-      return { error: "Server Configuration Error: Missing API Token in Cloudflare." };
-    }
-
-    console.log(`[Frappe Cloud API] Provisioning new database for: ${subdomain}.nexgenerp.in on bench: nexgenerp`);
     
-    // Direct URL to avoid 308 Redirects which strip the Authorization header
-    const fcResponse = await fetch('https://cloud.frappe.io/api/method/press.api.site.new', {
-      method: 'POST',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: `${subdomain}.nexgenerp.in`,
-        bench: 'nexgenerp'
-      })
-    });
+    // We redirect them to the frontend login page with a success message
+    const redirectUrl = `/login?tenant=${subdomain}&success=true`;
 
-    const resultText = await fcResponse.text();
-    console.log("Frappe Cloud Response:", resultText);
+    console.log(`[Mock API] Simulating database provisioning for: ${subdomain}.nexgenerp.in`);
+    
+    // Simulate Frappe Cloud database creation time (3 seconds for mock)
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
-    if (!fcResponse.ok) {
-      return { error: `Failed to provision database: ${fcResponse.statusText} - ${resultText}` };
-    }
-
+    // Return success without actually hitting Frappe Cloud
     return { success: true, redirectUrl };
   } catch (err: any) {
     console.error("Fatal Action Error:", err);
