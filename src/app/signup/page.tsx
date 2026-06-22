@@ -12,14 +12,19 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
     
-    const formData = new FormData(e.currentTarget);
-    const result = await createTenantSiteAction(formData);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const result = await createTenantSiteAction(formData);
 
-    if (result.error) {
-      alert(result.error);
+      if (result.error) {
+        alert(result.error);
+        setLoading(false);
+      } else if (result.redirectUrl) {
+        window.location.href = result.redirectUrl;
+      }
+    } catch (err: any) {
+      alert("A network timeout occurred while talking to Frappe Cloud. This usually means the API is blocked due to billing restrictions.");
       setLoading(false);
-    } else if (result.redirectUrl) {
-      window.location.href = result.redirectUrl;
     }
   };
 
