@@ -1,12 +1,13 @@
 ﻿"use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { loginAction } from "../actions";
 
 const initialState = { error: null as string | null };
 
 export default function LoginForm() {
   const [state, formAction, isPending] = useActionState(loginAction, initialState);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form action={formAction}>

@@ -6,6 +6,7 @@ import { createTenantSiteAction } from "./actions";
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [subdomain, setSubdomain] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +34,7 @@ export default function SignupPage() {
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '48px', background: 'linear-gradient(to top, rgba(15,23,42,0.9) 0%, rgba(15,23,42,0) 100%)', color: '#ffffff' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '16px', letterSpacing: '-1px' }}>Deploy in 60 seconds.</h2>
           <p style={{ fontSize: '18px', color: '#cbd5e1', lineHeight: 1.6, maxWidth: '400px' }}>
-            Instantly spin up your dedicated Frappe Cloud database without entering a credit card. Join dozens of fast-growing businesses.
+            Instantly spin up your dedicated BizFlow CRM database without entering a credit card. Join dozens of fast-growing businesses.
           </p>
         </div>
       </div>
@@ -46,7 +47,7 @@ export default function SignupPage() {
             <div style={{ width: '48px', height: '48px', border: '4px solid #e2e8f0', borderTopColor: '#4f46e5', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
             <h3 style={{ marginTop: '24px', fontSize: '20px', fontWeight: 800, color: '#0f172a' }}>Provisioning Server...</h3>
             <p style={{ color: '#64748b', fontSize: '15px', marginTop: '12px', textAlign: 'center', maxWidth: '300px', lineHeight: 1.5 }}>
-              We are spinning up an isolated database for you on Frappe Cloud. This takes about 60 seconds.
+              We are spinning up an isolated database for you on BizFlow CRM. This takes about 60 seconds.
             </p>
           </div>
         )}
@@ -91,7 +92,7 @@ export default function SignupPage() {
             </div>
 
             <button type="submit" disabled={loading} style={{ width: '100%', padding: '16px', borderRadius: '12px', background: loading ? '#94a3b8' : '#4f46e5', color: '#ffffff', fontSize: '18px', fontWeight: 700, border: 'none', cursor: loading ? 'not-allowed' : 'pointer', transition: 'background 0.2s', boxShadow: '0 10px 15px -3px rgba(79,70,229,0.3)' }}>
-              {loading ? 'Creating...' : 'Create Workspace'}
+              {loading ? 'Provisioning...' : 'Launch CRM Environment'}
             </button>
           </form>
           
